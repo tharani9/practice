@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+  <title>Employee Details</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+</head>
+<body>
+  <div class="form-container">
+    <h2 class="whitetxt">Employee Details</h2>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    // Get the data from localStorage
+    const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+
+    // Display the data
+    if (employeeData) {
+      const output = `
+        <p><strong >Name:</strong> ${employeeData.name}</p>
+        <p><strong>Email:</strong> ${employeeData.email}</p>
+        <p><strong>Phone:</strong> ${employeeData.phone}</p>
+        <p><strong>Departments:</strong> ${employeeData.departments || "None"}</p>
+        <p><strong>Gender:</strong> ${employeeData.gender}</p>
+      `;
+      document.getElementById("output").innerHTML = output;
+    } else {
+      document.getElementById("output").innerHTML = "<p>No employee details available.</p>";
+    }
+  </script>
+</body>
+</html>

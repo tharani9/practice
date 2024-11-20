@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+  <title>Employee Details Form</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+</head>
+<body>
+  <div class="form-container">
+    <h2 class="whitetxt">Employee Details Form</h2>
+    <form id="employeeForm">
+      <!-- Name Field -->
+      <label for="name">Full Name</label>
+      <div>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required><br>
+
+      </div>
+     
+      <!-- Department (Checkboxes) -->
+      <label>Department</label><br>
+      <input type="checkbox" id="hr" name="department" value="HR">
+      <label for="hr">HR</label><br>
+      <input type="checkbox" id="tech" name="department" value="Technology">
+      <label for="tech">Developer</label><br>
+      <input type="checkbox" id="sales" name="department" value="Sales">
+      <label for="sales">Sales</label><br>
+
+      <!-- Gender (Radio Buttons) -->
+      <label>Gender</label><br>
+      <input type="radio" id="male" name="gender" value="Male" required>
+      <label for="male">Male</label><br>
+      <input type="radio" id="female" name="gender" value="Female">
+      <label for="female">Female</label><br>
+      <input type="radio" id="other" name="gender" value="Other">
+      <label for="other">Other</label><br>
+
+      <!-- Additional Details -->
+      <label for="email">Email</label>
+      <div>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
+      </div>
+      
+
+      <label for="phone">Phone Number</label>
+      <div>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required><br>
+      </div>
+      
+
+      <!-- Submit Button -->
+      <button type="button" id="submitButton">Submit</button>
+    </form>
+  </div>
+
+  <script>
+  // JavaScript to handle form submission and validation
+  document.getElementById("submitButton").addEventListener("click", function () {
+  // Get form values
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const departments = document.querySelectorAll('input[name="department"]:checked');
+  const gender = document.querySelector('input[name="gender"]:checked');
+
+  // General check for empty fields
+  if (!name || !email || !phone || departments.length === 0 || !gender) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  // Validation for name (only text allowed)
+  const namePattern = /^[a-zA-Z\s]+$/;
+  if (!namePattern.test(name)) {
+    alert("Please enter a valid name (letters only).");
+    return;
+  }
+
+  // Validation for email (basic email pattern)
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailPattern.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  // Validation for phone number (exactly 10 digits)
+  const phonePattern = /^[0-9]{10}$/;
+  if (!phonePattern.test(phone)) {
+    alert("Please enter a valid 10-digit phone number.");
+    return;
+  }
+
+  // Save the data in localStorage (to pass it to the next page)
+  const departmentValues = Array.from(departments)
+    .map((checkbox) => checkbox.value)
+    .join(", ");
+
+  localStorage.setItem(
+    "employeeData",
+    JSON.stringify({ name, email, phone, departments: departmentValues, gender: gender.value })
+  );
+
+  // Redirect to the next page
+  window.location.href = "employee_details.html";
+});
+
+// Restrict phone number field to numeric input only and limit to 10 digits
+document.getElementById("phone").addEventListener("input", function () {
+  this.value = this.value.replace(/[^0-9]/g, "").slice(0, 10);
+});
+
+
+  // Restrict phone number field to numeric input only
+  document.getElementById("phone").addEventListener("input", function (event) {
+    this.value = this.value.replace(/[^0-9]/g, "");
+  });
+</script>
+
+</body>
+</html>
